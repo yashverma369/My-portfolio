@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Yash Kumar</title>
-<meta name="description" content="Portfolio of Yash Kumar, a B.Tech student and aspiring web developer from Noida. Projects, skills, education and contact details.">
+<meta name="description" content="Portfolio of Yash Kumar, a B.Tech student and aspiring web developer from Noida. Projects, skills, education, resume and contact details.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -93,7 +93,7 @@ section[id] { scroll-margin-top: 72px; }
 <body>
 <div id="root"></div>
 <noscript>This portfolio needs JavaScript. Contact: yashnamdev02983@gmail.com</noscript>
-<script id="site-data" type="application/json">{"projects":[]}</script>
+<script id="site-data" type="application/json">{"projects":[],"resume":{"name":"Yash_Kumar_Resume.pdf","file":"Yash_Kumar_Resume.pdf","size":56562,"updated":"2026-10-09"}}</script>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script id="src-tw">
 tailwind.config = {
@@ -144,6 +144,41 @@ tailwind.config = {
   } catch (e) { /* keep the empty default */ }
   if (!Array.isArray(DATA.projects)) DATA.projects = [];
   const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : '');
+
+  /* ---------- resume: embedded PDF (admin upload) or a PDF file next to index.html ---------- */
+  const SAFE_FILE = /^[\w][\w .\-]*\.pdf$/i;
+  const RESUME = DATA.resume && (DATA.resume.data || SAFE_FILE.test(DATA.resume.file || '')) ? DATA.resume : null;
+  const fmtSize = (n) => (n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB');
+  const fmtMonth = (iso) => {
+    const d = new Date(iso);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+  };
+  function b64ToBlob(b64) {
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new Blob([bytes], { type: 'application/pdf' });
+  }
+  async function saveResume(r) {
+    const blob = b64ToBlob(r.data);
+    const name = r.name || 'Resume.pdf';
+    let dl = null;
+    try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
+    if (dl) {
+      try { await dl.save({ filename: name, data: blob }); return 'saved'; }
+      catch (e) { return e && e.code === 'declined' ? 'declined' : 'failed'; }
+    }
+    if (window.claude) return 'unavailable';
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    return 'saved';
+  }
 
   /* ---------- republishing: rebuild this exact page with new data ---------- */
   const SO = '<scr' + 'ipt';
@@ -212,6 +247,7 @@ tailwind.config = {
   const CopyIcon = () => html`<${Icon}><rect x="9" y="9" width="12" height="12" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /><//>`;
   const CheckIcon = () => html`<${Icon}><path d="M5 12.5 10 17.5 19 7" /><//>`;
   const SunIcon = () => html`<${Icon} size=${18}><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /><//>`;
+  const DownloadIcon = () => html`<${Icon}><path d="M12 3v12M6.5 10.5 12 16l5.5-5.5M5 21h14" /><//>`;
   const MoonIcon = () => html`<${Icon} size=${18}><path d="M20 14.5A8 8 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" /><//>`;
 
   /* ---------- helpers ---------- */
@@ -253,7 +289,7 @@ tailwind.config = {
       const el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
     };
-    const links = [['projects', 'Projects'], ['skills', 'Skills'], ['education', 'Education'], ['contact', 'Contact']];
+    const links = [['projects', 'Projects'], ['skills', 'Skills'], ['education', 'Education'], ...(RESUME ? [['resume', 'Resume']] : []), ['contact', 'Contact']];
     return html`
       <header className="navbar sticky z-40" style=${{ top: 'env(safe-area-inset-top, 0px)' }}>
         <div className=${WRAP + ' relative flex h-16 items-center justify-between gap-4'}>
@@ -261,7 +297,7 @@ tailwind.config = {
           <nav className="flex items-center gap-1 sm:gap-2" aria-label="Sections">
             ${links.map(([id, label]) => html`
               <a key=${id} href=${'#' + id} onClick=${go(id)}
-                 className=${'rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:text-ink ' + (id === 'projects' || id === 'skills' || id === 'education' ? 'hidden md:inline-block' : 'btn-ghost !text-ink')}>${label}</a>`)}
+                 className=${'rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:text-ink ' + (id === 'contact' ? 'btn-ghost !text-ink' : 'hidden md:inline-block')}>${label}</a>`)}
             <button type="button" onClick=${toggle} aria-label=${theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
                     className="ml-1 grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink hover:border-accent">
               ${theme === 'dark' ? html`<${SunIcon} />` : html`<${MoonIcon} />`}
@@ -682,6 +718,37 @@ tailwind.config = {
       </section>`;
   }
 
+  /* ---------- resume ---------- */
+  function ResumeSection() {
+    const [status, setStatus] = useState('');
+    const r = RESUME;
+    if (!r) return null;
+    const meta = ['PDF', r.size ? fmtSize(r.size) : '', r.updated && fmtMonth(r.updated) ? 'updated ' + fmtMonth(r.updated) : ''].filter(Boolean).join(', ');
+    const onDownload = async () => {
+      setStatus('Preparing your download...');
+      const s = await saveResume(r);
+      setStatus(s === 'unavailable' ? 'Downloads are not available in this view. Open the portfolio on its public website to download the resume.'
+        : s === 'failed' ? 'The download did not start. Try again.' : '');
+    };
+    const btn = 'btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold';
+    return html`
+      <section id="resume" className=${WRAP + ' pb-20 sm:pb-28'}>
+        <div className="reveal card flex flex-wrap items-center justify-between gap-8 rounded-2xl p-6 sm:p-10">
+          <div className="min-w-0 max-w-xl">
+            <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Resume</h2>
+            <p className="mt-3 text-lg text-muted">My skills, projects, education and training on one page. Download it as a PDF.</p>
+          </div>
+          <div className="flex min-w-0 flex-col items-start gap-2">
+            ${r.data
+              ? html`<button type="button" onClick=${onDownload} className=${btn}>Download resume <${DownloadIcon} /></button>`
+              : html`<a href=${r.file} download=${r.file} className=${btn}>Download resume <${DownloadIcon} /></a>`}
+            <span className="tabnum text-sm text-muted">${meta}</span>
+            ${status ? html`<span className="max-w-xs text-sm text-muted" role="status">${status}</span>` : null}
+          </div>
+        </div>
+      </section>`;
+  }
+
   /* ---------- contact ---------- */
   function Row({ label, value, href, copy, external }) {
     const [msg, setMsg] = useState('');
@@ -764,7 +831,11 @@ tailwind.config = {
     const [formErr, setFormErr] = useState('');
     const [state, setState] = useState('idle');
     const [pubErr, setPubErr] = useState('');
-    const dirty = JSON.stringify(draft) !== JSON.stringify(DATA.projects);
+    const [rDraft, setRDraft] = useState(DATA.resume || null);
+    const [rChanged, setRChanged] = useState(false);
+    const [rErr, setRErr] = useState('');
+    const fileRef = useRef(null);
+    const dirty = rChanged || JSON.stringify(draft) !== JSON.stringify(DATA.projects);
     const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
     useEffect(() => {
@@ -816,11 +887,31 @@ tailwind.config = {
       setDraft(next);
     };
 
+    const onResume = async (e) => {
+      const f = e.target.files && e.target.files[0];
+      e.target.value = '';
+      if (!f) return;
+      if (f.size > 3 * 1024 * 1024) return setRErr('This file is larger than 3 MB. Export a smaller PDF and try again.');
+      try {
+        const buf = await f.arrayBuffer();
+        const bytes = new Uint8Array(buf);
+        if (String.fromCharCode(...bytes.subarray(0, 5)) !== '%PDF-') return setRErr('Choose a PDF file.');
+        let bin = '';
+        for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+        setRDraft({ name: 'Yash_Kumar_Resume.pdf', data: btoa(bin), size: f.size, updated: new Date().toISOString().slice(0, 10) });
+        setRChanged(true);
+        setRErr('');
+      } catch (err) {
+        setRErr('This file could not be read. Try another copy of the PDF.');
+      }
+    };
+    const removeResume = () => { setRDraft(null); setRChanged(true); setRErr(''); };
+
     const publish = async () => {
       setState('publishing');
       setPubErr('');
       try {
-        await artifact.publish(buildDoc({ projects: draft }));
+        await artifact.publish(buildDoc({ projects: draft, resume: rDraft }));
         setState('done');
       } catch (e) {
         setState('idle');
@@ -912,6 +1003,23 @@ tailwind.config = {
                         </li>`)}
                     </ul>`}
                 </div>
+
+                <div className="mt-8 border-t border-line pt-6">
+                  <h3 className="font-display text-lg font-extrabold">Resume</h3>
+                  <p className="mt-1 text-sm text-muted">The PDF is stored inside the page. Visitors download it from the Resume section.</p>
+                  <div className="mt-4 rounded-xl border border-line bg-paper p-4">
+                    ${rDraft && (rDraft.data || rDraft.file) ? html`
+                      <div className="font-display font-extrabold [overflow-wrap:anywhere]">${rDraft.name || rDraft.file}</div>
+                      <div className="tabnum text-sm text-muted">${[rDraft.size ? fmtSize(rDraft.size) : '', rDraft.updated ? 'updated ' + rDraft.updated : ''].filter(Boolean).join(', ')}${rChanged ? ' (new, not published yet)' : ''}</div>` : html`
+                      <div className="text-sm text-muted">${rChanged ? 'The resume will be removed when you publish.' : 'No resume on the page yet.'}</div>`}
+                    <input ref=${fileRef} id="adm-resume" type="file" accept="application/pdf,.pdf" hidden onChange=${onResume} />
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button type="button" className=${small} onClick=${() => fileRef.current && fileRef.current.click()}>${rDraft ? 'Replace PDF' : 'Upload PDF'}</button>
+                      ${rDraft ? html`<button type="button" className=${small} onClick=${removeResume}>Remove</button>` : null}
+                    </div>
+                  </div>
+                  ${rErr ? html`<p className="mt-3 text-sm font-medium text-hot" role="alert">${rErr}</p>` : null}
+                </div>
               </div>
 
               <div className="border-t border-line px-5 pt-4 sm:px-6" style=${{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' }}>
@@ -958,6 +1066,7 @@ tailwind.config = {
           <${Projects} />
           <${Skills} />
           <${Education} />
+          <${ResumeSection} />
         </main>
         <${Contact} />
         ${artifact ? html`<${Admin} artifact=${artifact} />` : null}

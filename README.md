@@ -49,3 +49,13 @@ Put each new project inside the `projects` list. Example:
 - Use a different `id` for every project and separate projects with commas.
 
 Commit the change and GitHub Pages updates the site automatically.
+
+## Update the resume
+
+The Resume section downloads `Yash_Kumar_Resume.pdf` from this repository.
+
+1. In the repository, choose Add file, then Upload files.
+2. Upload the new PDF with the **same name**, `Yash_Kumar_Resume.pdf`, and commit. It replaces the old file.
+3. Optional: in `index.html`, update `size` (in bytes) and `updated` (date as YYYY-MM-DD) inside the `site-data` block so the line under the button stays correct.
+
+The Admin button is only available on the copy of this page hosted on claude.ai. On GitHub Pages, change the PDF and the `site-data` block as described above.
