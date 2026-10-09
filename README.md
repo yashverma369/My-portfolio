@@ -1,76 +1,75 @@
 # Yash Kumar | Portfolio
 
-Personal portfolio of Yash Kumar, B.Tech student and aspiring Software / Web Developer from Noida.
+Portfolio website of **Yash Kumar**, a B.Tech student and aspiring Software / Web Developer from Noida, India. It presents my projects, skills, education and resume in one fast, responsive page.
 
-Live site: https://yashverma369.github.io/My-portfolio/ (opens once GitHub Pages is turned on, see below)
+**Live site:** https://yashverma369.github.io/My-portfolio/
 
-Built with React, Tailwind CSS and GSAP. There is no build step.
+![React](https://img.shields.io/badge/React-18-20232A?logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-0F172A?logo=tailwindcss&logoColor=38BDF8)
+![GSAP](https://img.shields.io/badge/GSAP-3-0AE448?logo=greensock&logoColor=white)
+![Hosted on GitHub Pages](https://img.shields.io/badge/Hosted_on-GitHub_Pages-222222?logo=github&logoColor=white)
 
-## Files
+## About
 
-- `index.html`: the whole site.
-- `Yash_Kumar_Resume.pdf`: the file the Resume section downloads.
+I build responsive web interfaces with HTML, CSS and JavaScript, and I am currently learning Python Full-Stack Web Development. I won 1st place in my college's UI/UX speed-coding hackathon by building a landing page from scratch in five minutes. This site is my own showcase, built to be easy to read, fast to load and pleasant to use on any device.
+
+## Features
+
+- **Animated hero** with a live demo of a landing page being typed and rendered, built with GSAP.
+- **Projects section** featuring my deployed Weather Application, with an interactive sample of its unit switch (Celsius and Fahrenheit, km/h and mph).
+- **Skills, education and training** laid out as a clear summary and timeline.
+- **Resume download** as a PDF.
+- **Contact details** with one-click copy buttons for email and phone.
+- **Light and dark themes** that follow the visitor's system setting, with a manual toggle.
+- **Responsive layout** that works from small phones to large desktops.
+- **Accessibility basics:** visible keyboard focus, labelled controls and reduced-motion support.
+
+## Tech stack
+
+| Area | Tools |
+| --- | --- |
+| UI | React 18, htm |
+| Styling | Tailwind CSS |
+| Animation | GSAP and ScrollTrigger |
+| Fonts | Bricolage Grotesque, Instrument Sans, JetBrains Mono |
+| Hosting | GitHub Pages |
+
+The site is a single `index.html` file. React, Tailwind CSS and GSAP load from a CDN, so there is no build step.
+
+## Project structure
+
+```text
+.
+├── index.html                # The complete site
+├── Yash_Kumar_Resume.pdf     # File served by the Resume section
+├── docs/
+│   └── MAINTENANCE.md        # How to add projects and update the resume
+└── README.md
+```
 
 ## Run locally
 
-Open `index.html` in a browser. An internet connection is needed because React, Tailwind and GSAP load from a CDN.
+1. Clone the repository:
 
-## Deploy on GitHub Pages
+   ```bash
+   git clone https://github.com/yashverma369/My-portfolio.git
+   cd My-portfolio
+   ```
 
-1. Open the repository on GitHub and go to Settings, then Pages.
-2. Under Build and deployment, choose Deploy from a branch.
-3. Select the `main` branch and the `/ (root)` folder, then save.
-4. Wait a minute or two. The site opens at `https://yashverma369.github.io/My-portfolio/`.
+2. Open `index.html` in a browser. An internet connection is needed to load the libraries and fonts from their CDNs.
 
-## Add a new project
+## Deployment
 
-Projects live in one block near the top of `index.html`, under the line `<div id="root"></div>`:
+The site is deployed with GitHub Pages from the `main` branch and the root folder. Every commit to `main` updates the live site within a minute or two.
 
-```html
-<script id="site-data" type="application/json">{"projects":[],"resume":{ ... }}</script>
-```
+## Maintenance
 
-Add each new project inside the `projects` list and leave the `resume` part as it is. Example:
+Steps for adding a new project and replacing the resume are in [docs/MAINTENANCE.md](docs/MAINTENANCE.md).
 
-```html
-<script id="site-data" type="application/json">
-{
-  "projects": [
-    {
-      "id": "p1",
-      "title": "Quiz App",
-      "tag": "Personal project",
-      "status": "Live",
-      "desc": "A quiz app with a timer and score history.",
-      "tech": ["React", "Tailwind CSS"],
-      "demo": "https://yashverma369.github.io/quiz-app",
-      "repo": "https://github.com/yashverma369/quiz-app"
-    }
-  ],
-  "resume": {
-    "name": "Yash_Kumar_Resume.pdf",
-    "file": "Yash_Kumar_Resume.pdf",
-    "size": 56562,
-    "updated": "2026-10-09"
-  }
-}
-</script>
-```
+## Contact
 
-- `status` can be `Live`, `In progress` or `Completed`.
-- `demo` and `repo` are optional and must start with `https://`.
-- Give every project a different `id` and separate projects with commas.
+- Email: yashnamdev02983@gmail.com
+- LinkedIn: [linkedin.com/in/yash369](https://www.linkedin.com/in/yash369)
+- GitHub: [github.com/yashverma369](https://github.com/yashverma369)
 
-Commit the change and GitHub Pages updates the site in a minute or two.
-
-## Update the resume
-
-1. In the repository, choose Add file, then Upload files.
-2. Upload the new PDF with the same name, `Yash_Kumar_Resume.pdf`, and commit. It replaces the old file.
-3. Optional: in the `site-data` block of `index.html`, update `size` (in bytes) and `updated` (as YYYY-MM-DD) so the line under the download button stays correct.
-
-The resume PDF contains a phone number and email address, and anyone with the site link can download it.
-
-## Admin panel
-
-The Admin button is only available on the copy of this portfolio hosted on claude.ai. It does not appear on GitHub Pages. Changes made there do not change this repository, so update projects and the resume here as described above.
+I am open to internships and entry-level roles in web and software development.
