@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yash Kumar</title>
+<meta name="description" content="Portfolio of Yash Kumar, a B.Tech student and aspiring web developer from Noida. Projects, skills, education and contact details.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style id="src-css">
+/* Layout concept: asymmetric hero with the name on the left and a live "5-minute landing page" editor on the right,
+   then a skills ribbon, projects, skills, an education timeline and a contact list. */
+:root {
+  --bg: #EDF1F7;
+  --surface: #FFFFFF;
+  --ink: #0D1730;
+  --muted: #4F5C78;
+  --line: #CFD8E8;
+  --accent: #2F4BFF;
+  --accent-ink: #FFFFFF;
+  --hot: #D93A22;
+  --code-bg: #0D1730;
+  --code-fg: #DCE4FF;
+  --code-dim: #6F7EA6;
+  --tag: #8FB0FF;
+  --str: #9BE3B5;
+  --attr: #FFB48A;
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1020; --surface: #111A31; --ink: #E8EDFB; --muted: #97A3C0; --line: #1F2C4D;
+    --accent: #8097FF; --accent-ink: #0A1020; --hot: #FF7A5F;
+    --code-bg: #070B16; --code-fg: #DCE4FF; --code-dim: #5D6C95;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A1020; --surface: #111A31; --ink: #E8EDFB; --muted: #97A3C0; --line: #1F2C4D;
+  --accent: #8097FF; --accent-ink: #0A1020; --hot: #FF7A5F;
+  --code-bg: #070B16; --code-fg: #DCE4FF; --code-dim: #5D6C95;
+  color-scheme: dark;
+}
+html { scroll-behavior: auto; }
+html body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+section[id] { scroll-margin-top: 72px; }
+
+.navbar { background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.gridbg {
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse at 30% 25%, #000 15%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 30% 25%, #000 15%, transparent 72%);
+  opacity: .6;
+}
+.glow { background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 34%, transparent), transparent); filter: blur(12px); }
+.ribbon { background: var(--accent); color: var(--accent-ink); }
+.card { background: var(--surface); border: 1px solid var(--line); }
+.card-hover { transition: border-color .25s ease, box-shadow .25s ease; }
+.card-hover:hover { border-color: var(--accent); box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--accent) 60%, transparent); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); transition: transform .2s ease, box-shadow .2s ease; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -14px var(--accent); }
+.btn-ghost { border: 1px solid var(--ink); color: var(--ink); transition: background .2s ease, color .2s ease; }
+.btn-ghost:hover { background: var(--ink); color: var(--bg); }
+.editor { background: var(--code-bg); color: var(--code-fg); box-shadow: 0 40px 70px -40px color-mix(in srgb, var(--accent) 70%, #000); }
+.caret { display: inline-block; width: .6ch; height: 1.1em; vertical-align: -.18em; background: var(--accent); animation: blink 1s steps(1) infinite; }
+.pop { animation: pop .4s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes pop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.tabnum { font-variant-numeric: tabular-nums; }
+.timeline-dot { box-shadow: 0 0 0 4px var(--bg); }
+@media (prefers-reduced-motion: reduce) {
+  .pop, .caret { animation: none; }
+  .btn-primary, .btn-ghost, .card-hover { transition: none; }
+}
+</style>
+
+
+</head>
+<body>
+<div id="root"></div>
+<noscript>This portfolio needs JavaScript. Contact: yashnamdev02983@gmail.com</noscript>
+<script id="site-data" type="application/json">{"projects":[]}</script>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script id="src-tw">
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        paper: 'var(--bg)', surface: 'var(--surface)', ink: 'var(--ink)', muted: 'var(--muted)',
+        line: 'var(--line)', accent: 'var(--accent)', accentink: 'var(--accent-ink)', hot: 'var(--hot)',
+        codebg: 'var(--code-bg)', codefg: 'var(--code-fg)', codedim: 'var(--code-dim)'
+      },
+      fontFamily: {
+        display: ['var(--font-display)'],
+        body: ['var(--font-body)'],
+        mono: ['var(--font-mono)']
+      }
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script id="src-app">
+(function () {
+  const { useState, useEffect, useLayoutEffect, useRef } = React;
+  const html = htm.bind(React.createElement);
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const WRAP = 'mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8';
+
+  const ME = {
+    email: 'yashnamdev02983@gmail.com',
+    phone: '+91 97198 26280',
+    phoneRaw: '+919719826280',
+    github: 'https://github.com/yashverma369',
+    linkedin: 'https://www.linkedin.com/in/yash369',
+    demo: 'https://yashverma369.github.io/rich-ui-weather-app'
+  };
+
+  /* ---------- site data (projects added from the admin panel live in #site-data) ---------- */
+  let DATA = { projects: [] };
+  try {
+    const raw = document.getElementById('site-data');
+    if (raw) DATA = JSON.parse(raw.textContent) || DATA;
+  } catch (e) { /* keep the empty default */ }
+  if (!Array.isArray(DATA.projects)) DATA.projects = [];
+  const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : '');
+
+  /* ---------- republishing: rebuild this exact page with new data ---------- */
+  const SO = '<scr' + 'ipt';
+  const SC = '</scr' + 'ipt>';
+  const SKELETON = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>\n';
+  const FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">\n';
+  const TAILWIND = 'https://cdn.tailwindcss.com/3.4.17';
+  const LIBS = [
+    'https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js',
+    'https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'
+  ];
+  const extScript = (u) => SO + ' src="' + u + '">' + SC + '\n';
+
+  function buildDoc(data) {
+    const css = document.getElementById('src-css').textContent;
+    const tw = document.getElementById('src-tw').textContent;
+    const app = document.getElementById('src-app').textContent;
+    const json = JSON.stringify(data).replace(/</g, '\\u003c');
+    return SKELETON +
+      '<title>Yash Kumar</title>\n' + FONTS +
+      '<style id="src-css">' + css + '</style>\n\n' +
+      '<div id="root"></div>\n' +
+      SO + ' id="site-data" type="application/json">' + json + SC + '\n' +
+      extScript(TAILWIND) +
+      SO + ' id="src-tw">' + tw + SC + '\n' +
+      LIBS.map(extScript).join('') +
+      SO + ' id="src-app">' + app + SC + '\n' +
+      '\n</body></html>';
+  }
+
+  async function detectAdmin() {
+    try {
+      const c = window.claude;
+      if (!c || !c.use) return null;
+      const artifact = await c.use('artifact');
+      if (!artifact) return null;
+      const user = await c.use('user');
+      const ok = user ? await user.canEdit() : false;
+      return ok ? artifact : null;
+    } catch (e) { return null; }
+  }
+
+  const RIBBON = ['HTML5', 'CSS3', 'JavaScript ES6', 'REST APIs', 'Responsive design', 'DOM manipulation',
+    'Git and GitHub', 'GitHub Pages', 'Chrome DevTools', 'Python (learning)'];
+
+  const CODE = [
+    '<nav>Yash</nav>',
+    '<header>',
+    '  <h1>Hello, I build fast.</h1>',
+    '  <p>Responsive UI in 5 minutes.</p>',
+    '  <a class="btn">View work</a>',
+    '</header>',
+    '<section class="cards">',
+    '  <div>HTML</div>',
+    '  <div>CSS</div>',
+    '</section>'
+  ].join('\n');
+
+  /* ---------- icons ---------- */
+  const Icon = ({ children, size = 16 }) => html`<svg width=${size} height=${size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">${children}</svg>`;
+  const ArrowUpRight = () => html`<${Icon}><path d="M7 17 17 7M8 7h9v9" /><//>`;
+  const ArrowDown = () => html`<${Icon}><path d="M12 5v14M6 13l6 6 6-6" /><//>`;
+  const CopyIcon = () => html`<${Icon}><rect x="9" y="9" width="12" height="12" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /><//>`;
+  const CheckIcon = () => html`<${Icon}><path d="M5 12.5 10 17.5 19 7" /><//>`;
+  const SunIcon = () => html`<${Icon} size=${18}><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /><//>`;
+  const MoonIcon = () => html`<${Icon} size=${18}><path d="M20 14.5A8 8 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" /><//>`;
+
+  /* ---------- helpers ---------- */
+  function useTheme() {
+    const [t, setT] = useState(() => document.documentElement.dataset.theme ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    const toggle = () => {
+      const n = t === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = n;
+      setT(n);
+    };
+    return [t, toggle];
+  }
+
+  function hl(line) {
+    const parts = line.split(/(<\/?[a-z0-9]+|\/?>|"[^"]*"|\b[a-z-]+(?==))/);
+    return parts.map((t, i) => {
+      if (!t) return null;
+      let color = 'var(--code-fg)';
+      if (i % 2 === 1) {
+        if (t[0] === '<' || t === '>' || t === '/>') color = 'var(--tag)';
+        else if (t[0] === '"') color = 'var(--str)';
+        else color = 'var(--attr)';
+      }
+      return html`<span key=${i} style=${{ color }}>${t}</span>`;
+    });
+  }
+
+  const SectionHead = ({ title, children }) => html`
+    <div className="reveal mb-10 max-w-2xl">
+      <h2 className="font-display text-4xl font-extrabold leading-[1.05] tracking-tight [text-wrap:balance] sm:text-5xl">${title}</h2>
+      <p className="mt-3 text-lg text-muted">${children}</p>
+    </div>`;
+
+  /* ---------- nav ---------- */
+  function Nav({ theme, toggle }) {
+    const go = (id) => (e) => {
+      e.preventDefault();
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    };
+    const links = [['projects', 'Projects'], ['skills', 'Skills'], ['education', 'Education'], ['contact', 'Contact']];
+    return html`
+      <header className="navbar sticky z-40" style=${{ top: 'env(safe-area-inset-top, 0px)' }}>
+        <div className=${WRAP + ' relative flex h-16 items-center justify-between gap-4'}>
+          <a href="#top" onClick=${go('top')} className="font-display text-xl font-extrabold tracking-tight">Yash Kumar</a>
+          <nav className="flex items-center gap-1 sm:gap-2" aria-label="Sections">
+            ${links.map(([id, label]) => html`
+              <a key=${id} href=${'#' + id} onClick=${go(id)}
+                 className=${'rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:text-ink ' + (id === 'projects' || id === 'skills' || id === 'education' ? 'hidden md:inline-block' : 'btn-ghost !text-ink')}>${label}</a>`)}
+            <button type="button" onClick=${toggle} aria-label=${theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                    className="ml-1 grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink hover:border-accent">
+              ${theme === 'dark' ? html`<${SunIcon} />` : html`<${MoonIcon} />`}
+            </button>
+          </nav>
+          <div id="progress" className="absolute bottom-[-1px] left-0 h-[2px] w-full bg-accent" style=${{ transform: 'scaleX(0)', transformOrigin: 'left' }}></div>
+        </div>
+      </header>`;
+  }
+
+  /* ---------- hero editor ---------- */
+  function Editor() {
+    const total = CODE.length;
+    const [n, setN] = useState(reduce ? total : 0);
+    const [run, setRun] = useState(0);
+    const done = n >= total;
+
+    useEffect(() => {
+      if (reduce) return;
+      setN(0);
+      const o = { p: 0 };
+      const tw = gsap.to(o, {
+        p: 1, duration: 7, delay: run === 0 ? 1.5 : 0.2, ease: 'none',
+        onUpdate() { setN(Math.round(o.p * total)); }
+      });
+      return () => tw.kill();
+    }, [run]);
+
+    const typed = CODE.slice(0, n);
+    const lines = typed.split('\n');
+    const has = (s) => typed.includes(s);
+    const secs = Math.max(0, Math.ceil(300 * (1 - n / total)));
+    const clock = Math.floor(secs / 60) + ':' + String(secs % 60).padStart(2, '0');
+
+    return html`
+      <div className="editor hf w-full overflow-hidden rounded-2xl" role="group" aria-label="Animated demo of a landing page being typed and rendered in five minutes">
+        <div className="flex items-center justify-between gap-3 border-b px-4 py-3" style=${{ borderColor: 'color-mix(in srgb, var(--code-fg) 14%, transparent)' }}>
+          <div className="flex min-w-0 items-center gap-2 font-mono text-xs text-codedim">
+            <span className="h-2.5 w-2.5 rounded-full bg-codedim opacity-60"></span>
+            <span className="truncate">landing.html</span>
+          </div>
+          <div className=${'tabnum flex items-center gap-2 rounded-full px-3 py-1 font-mono text-xs font-medium ' + (secs < 60 && !done ? 'text-hot' : 'text-codefg')}
+               style=${{ background: 'color-mix(in srgb, var(--code-fg) 10%, transparent)' }}>
+            <span className="text-codedim">round</span>
+            <span>${clock}</span>
+          </div>
+        </div>
+
+        <div className="min-h-[236px] overflow-x-auto px-4 py-4 font-mono text-[12.5px] leading-[22px]">
+          ${lines.map((line, i) => html`
+            <div key=${i} className="flex whitespace-pre">
+              <span className="w-6 shrink-0 select-none pr-3 text-right text-codedim">${i + 1}</span>
+              <span>${hl(line)}${i === lines.length - 1 ? html`<span className="caret"></span>` : null}</span>
+            </div>`)}
+        </div>
+
+        <div className="px-4 pb-4">
+          <div className="min-h-[236px] overflow-hidden rounded-xl border border-line bg-surface text-ink">
+            <div className="flex items-center justify-between border-b border-line px-3 py-2 font-mono text-[11px] text-muted">
+              <span>Live preview</span>
+              <span>${done ? 'Submitted' : 'Building'}</span>
+            </div>
+            ${!has('</nav>') && html`<div className="grid h-[190px] place-items-center px-6 text-center text-sm text-muted">The page appears here as the code is typed.</div>`}
+            ${has('</nav>') && html`
+              <div className="pop border-b border-line px-4 py-2.5 font-display text-sm font-extrabold">Yash</div>`}
+            ${has('</header>') || has('</h1>') ? html`
+              <div className="px-5 pt-5">
+                ${has('</h1>') && html`<div className="pop font-display text-2xl font-extrabold leading-tight tracking-tight">Hello, I build fast.</div>`}
+                ${has('</p>') && html`<div className="pop mt-1 text-sm text-muted">Responsive UI in 5 minutes.</div>`}
+                ${has('</a>') && html`<div className="pop mt-3 inline-block rounded-full bg-accent px-4 py-1.5 text-xs font-semibold text-accentink">View work</div>`}
+              </div>` : null}
+            ${has('</div>') && html`
+              <div className="grid grid-cols-2 gap-3 px-5 pb-5 pt-4">
+                <div className="pop rounded-lg border border-line px-3 py-3 text-center text-xs font-semibold">HTML</div>
+                ${has('CSS</div>') && html`<div className="pop rounded-lg border border-line px-3 py-3 text-center text-xs font-semibold">CSS</div>`}
+              </div>`}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 border-t px-4 py-3 text-xs" style=${{ borderColor: 'color-mix(in srgb, var(--code-fg) 14%, transparent)' }}>
+          <div className="flex min-w-0 flex-1 items-center gap-3">
+            <div className="h-1.5 w-full max-w-[160px] overflow-hidden rounded-full" style=${{ background: 'color-mix(in srgb, var(--code-fg) 14%, transparent)' }}>
+              <div className="h-full rounded-full bg-accent" style=${{ width: (n / total * 100) + '%' }}></div>
+            </div>
+            <span className="truncate text-codedim">${done ? 'Done. 1st place.' : 'Typing the page from scratch'}</span>
+          </div>
+          <button type="button" onClick=${() => (reduce ? null : setRun(run + 1))}
+                  className=${'rounded-full border px-3 py-1 font-medium text-codefg ' + (reduce ? 'hidden' : '')}
+                  style=${{ borderColor: 'color-mix(in srgb, var(--code-fg) 28%, transparent)' }}>Replay</button>
+        </div>
+      </div>`;
+  }
+
+  /* ---------- hero ---------- */
+  const Line = ({ text }) => html`
+    <span className="block overflow-hidden pb-[0.04em] pt-[0.06em] leading-[0.95]" aria-hidden="true">
+      ${[...text].map((c, i) => html`<span key=${i} className="hl inline-block">${c}</span>`)}
+    </span>`;
+
+  function Hero() {
+    const root = useRef(null);
+    useLayoutEffect(() => {
+      const el = root.current;
+      const glow = el.querySelector('.glow');
+      let move;
+      const ctx = gsap.context(() => {
+        gsap.set(glow, { x: el.clientWidth * 0.5, y: 40 });
+        if (reduce) return;
+        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+        tl.from('.hl', { yPercent: 115, duration: 0.9, stagger: 0.05 })
+          .from('.hf', { y: 24, opacity: 0, duration: 0.7, stagger: 0.09 }, '-=0.6');
+        const qx = gsap.quickTo(glow, 'x', { duration: 0.9, ease: 'power3' });
+        const qy = gsap.quickTo(glow, 'y', { duration: 0.9, ease: 'power3' });
+        move = (e) => {
+          const r = el.getBoundingClientRect();
+          qx(e.clientX - r.left - 250);
+          qy(e.clientY - r.top - 250);
+        };
+        el.addEventListener('pointermove', move);
+      }, root);
+      return () => { if (move) el.removeEventListener('pointermove', move); ctx.revert(); };
+    }, []);
+
+    const facts = [['Based in', 'Noida, Uttar Pradesh'], ['Degree', 'B.Tech, 2022 to 2026'], ['Learning', 'Python Full-Stack']];
+
+    return html`
+      <section id="top" ref=${root} className="relative overflow-hidden">
+        <div className="gridbg pointer-events-none absolute inset-0"></div>
+        <div className="glow pointer-events-none absolute left-0 top-0 h-[500px] w-[500px] rounded-full"></div>
+        <div className=${WRAP + ' relative grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-14 lg:pb-24 lg:pt-20'}>
+          <div className="min-w-0">
+            <div className="hf inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60"></span>
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent"></span>
+              </span>
+              Open to internships and fresher roles
+            </div>
+
+            <h1 aria-label="Yash Kumar" className="mt-6 font-display text-[length:clamp(4.2rem,13vw,8.6rem)] font-extrabold tracking-[-0.04em]">
+              <${Line} text="Yash" />
+              <${Line} text="Kumar" />
+            </h1>
+
+            <p className="hf mt-5 font-display text-xl font-semibold sm:text-2xl">Aspiring Software / Web Developer</p>
+            <p className="hf mt-3 max-w-xl text-lg text-muted">
+              B.Tech student who builds responsive, API-driven web apps with HTML, CSS and JavaScript.
+              1st place at a college UI speed-coding hackathon, now learning Python Full-Stack.
+            </p>
+
+            <div className="hf mt-8 flex flex-wrap items-center gap-3">
+              <a href="#projects" onClick=${(e) => { e.preventDefault(); document.getElementById('projects').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }}
+                 className="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold">See my projects <${ArrowDown} /></a>
+              <a href="#contact" onClick=${(e) => { e.preventDefault(); document.getElementById('contact').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }}
+                 className="btn-ghost inline-flex items-center rounded-full px-6 py-3 font-semibold">Get in touch</a>
+            </div>
+
+            <dl className="hf mt-10 grid max-w-xl grid-cols-1 gap-x-8 gap-y-4 border-t border-line pt-6 sm:grid-cols-3">
+              ${facts.map(([k, v]) => html`
+                <div key=${k} className="min-w-0">
+                  <dt className="text-sm text-muted">${k}</dt>
+                  <dd className="font-display font-semibold leading-snug">${v}</dd>
+                </div>`)}
+            </dl>
+          </div>
+
+          <div className="min-w-0"><${Editor} /></div>
+        </div>
+      </section>`;
+  }
+
+  /* ---------- ribbon ---------- */
+  function Ribbon() {
+    const track = useRef(null);
+    useLayoutEffect(() => {
+      if (reduce) return;
+      const tw = gsap.to(track.current, { xPercent: -50, duration: 36, ease: 'none', repeat: -1 });
+      return () => tw.kill();
+    }, []);
+    const items = [...RIBBON, ...RIBBON];
+    return html`
+      <div className="overflow-hidden py-5" aria-hidden="true">
+        <div className="ribbon -rotate-1 scale-[1.03] py-3.5">
+          <div ref=${track} className="flex w-max items-center">
+            ${items.map((t, i) => html`
+              <span key=${i} className="flex items-center whitespace-nowrap font-display text-lg font-semibold">
+                <span className="px-6">${t}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70"></span>
+              </span>`)}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* ---------- projects ---------- */
+  function WeatherDemo() {
+    const [u, setU] = useState('c');
+    const hours = [['Now', 28], ['2 PM', 30], ['4 PM', 31], ['6 PM', 27]];
+    const t = (c) => (u === 'c' ? c : Math.round(c * 9 / 5 + 32));
+    const wind = u === 'c' ? '14 km/h' : '9 mph';
+    const unit = u === 'c' ? '°C' : '°F';
+    return html`
+      <div className="mt-6 rounded-xl border border-line bg-paper p-4 sm:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-sm text-muted">Sample data, same unit switch as the real app</span>
+          <div className="inline-flex rounded-full border border-line bg-surface p-1 text-sm font-medium" role="group" aria-label="Units">
+            ${[['c', '°C, km/h'], ['f', '°F, mph']].map(([k, label]) => html`
+              <button key=${k} type="button" aria-pressed=${u === k} onClick=${() => setU(k)}
+                      className=${'rounded-full px-3.5 py-1 ' + (u === k ? 'bg-accent text-accentink' : 'text-muted hover:text-ink')}>${label}</button>`)}
+          </div>
+        </div>
+        <div className="mt-5 grid items-end gap-6 sm:grid-cols-[auto_minmax(0,1fr)]">
+          <div>
+            <div key=${u} className="pop tabnum font-display text-6xl font-extrabold leading-none tracking-tight">${t(28)}<span className="text-3xl text-muted">${unit}</span></div>
+            <div className="mt-2 text-muted">Partly cloudy</div>
+            <div className="mt-3 flex gap-5 text-sm">
+              <span><span className="text-muted">Humidity</span> <b className="tabnum">54%</b></span>
+              <span><span className="text-muted">Wind</span> <b key=${u} className="pop tabnum inline-block">${wind}</b></span>
+            </div>
+          </div>
+          <div className="grid h-28 grid-cols-4 items-end gap-3">
+            ${hours.map(([h, c]) => html`
+              <div key=${h} className="flex h-full flex-col items-center justify-end gap-1.5">
+                <span className="tabnum text-xs font-semibold">${t(c)}°</span>
+                <div className="w-full rounded-t-md bg-accent" style=${{ height: (30 + (c - 26) / 6 * 70) * 0.62 + '%', opacity: h === 'Now' ? 1 : 0.55 }}></div>
+                <span className="text-[11px] text-muted">${h}</span>
+              </div>`)}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function Ring() {
+    const ref = useRef(null);
+    const C = 2 * Math.PI * 64;
+    useLayoutEffect(() => {
+      const el = ref.current;
+      if (reduce) { el.style.strokeDashoffset = 0; return; }
+      el.style.strokeDashoffset = C;
+      const st = ScrollTrigger.create({
+        trigger: el, start: 'top 90%', once: true,
+        onEnter: () => gsap.to(el, { strokeDashoffset: 0, duration: 1.8, ease: 'power3.out' })
+      });
+      return () => st.kill();
+    }, []);
+    return html`
+      <div className="relative h-40 w-40 shrink-0">
+        <svg viewBox="0 0 160 160" className="h-full w-full -rotate-90" aria-hidden="true">
+          <circle cx="80" cy="80" r="64" fill="none" stroke="var(--line)" strokeWidth="10" />
+          <circle ref=${ref} cx="80" cy="80" r="64" fill="none" stroke="var(--accent)" strokeWidth="10" strokeLinecap="round" strokeDasharray=${C} strokeDashoffset="0" />
+        </svg>
+        <div className="absolute inset-0 grid place-items-center text-center">
+          <div>
+            <div className="font-display text-5xl font-extrabold leading-none tracking-tight">1st</div>
+            <div className="mt-1 text-sm text-muted">5-minute round</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  const Chip = ({ children, dashed }) => html`<span className=${'inline-block rounded-full border px-3 py-1 text-sm font-medium ' + (dashed ? 'border-dashed border-accent text-accent' : 'border-line bg-paper')}>${children}</span>`;
+
+  function ProjectCard({ p }) {
+    const demo = safeUrl(p.demo);
+    const repo = safeUrl(p.repo);
+    const tech = Array.isArray(p.tech) ? p.tech : [];
+    return html`
+      <article className="reveal card card-hover flex min-w-0 flex-col rounded-2xl p-6 sm:p-7">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <h3 className="min-w-0 font-display text-2xl font-extrabold leading-tight tracking-tight [overflow-wrap:anywhere]">${p.title}</h3>
+          ${p.status ? html`<span className=${'rounded-full px-2.5 py-0.5 text-xs font-semibold ' + (p.status === 'Live' ? 'bg-accent text-accentink' : 'border border-accent text-accent')}>${p.status}</span>` : null}
+        </div>
+        ${p.tag ? html`<p className="mt-1 text-muted">${p.tag}</p>` : null}
+        <p className="mt-4 whitespace-pre-line text-[17px] [overflow-wrap:anywhere]">${p.desc}</p>
+        ${tech.length ? html`<div className="mt-4 flex flex-wrap gap-2">${tech.map((t, i) => html`<${Chip} key=${i}>${t}<//>`)}</div>` : null}
+        ${demo || repo ? html`
+          <div className="mt-auto flex flex-wrap gap-3 pt-6">
+            ${demo ? html`<a href=${demo} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold">Open live demo <${ArrowUpRight} /></a>` : null}
+            ${repo ? html`<a href=${repo} target="_blank" rel="noopener noreferrer" className="btn-ghost inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold">Source code <${ArrowUpRight} /></a>` : null}
+          </div>` : null}
+      </article>`;
+  }
+
+  function Projects() {
+    const bullets = [
+      'Shows live temperature, humidity, wind speed and daily and hourly forecasts for any location you search.',
+      'Pulls data from a third-party REST API with asynchronous JavaScript and renders it dynamically.',
+      'Lets you switch between Celsius and Fahrenheit, and km/h and mph.',
+      'Fully responsive, and hosted on GitHub Pages so anyone can open it on any device.'
+    ];
+    return html`
+      <section id="projects" className=${WRAP + ' py-20 sm:py-28'}>
+        <${SectionHead} title="What I've built">Deployed apps, a hackathon win, and new projects as I ship them.<//>
+        <div className="grid gap-6 lg:grid-cols-12">
+          <article className="reveal card card-hover min-w-0 rounded-2xl p-6 sm:p-8 lg:col-span-7">
+            <div className="flex flex-wrap items-center gap-3">
+              <h3 className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">Weather Application</h3>
+              <span className="rounded-full bg-accent px-3 py-0.5 text-sm font-semibold text-accentink">Live</span>
+            </div>
+            <p className="mt-1 text-muted">Personal project</p>
+            <ul className="mt-5 grid gap-2.5 text-[17px]">
+              ${bullets.map((b) => html`
+                <li key=${b} className="flex gap-3"><span className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span><span>${b}</span></li>`)}
+            </ul>
+            <div className="mt-5 flex flex-wrap gap-2"><${Chip}>HTML5<//><${Chip}>CSS3<//><${Chip}>JavaScript<//><${Chip}>REST Weather API<//></div>
+            <${WeatherDemo} />
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href=${ME.demo} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-semibold">Open live demo <${ArrowUpRight} /></a>
+              <a href=${ME.github} target="_blank" rel="noopener noreferrer" className="btn-ghost inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-semibold">Source code <${ArrowUpRight} /></a>
+            </div>
+          </article>
+
+          <article className="reveal card card-hover flex min-w-0 flex-col rounded-2xl p-6 sm:p-8 lg:col-span-5">
+            <div className="flex flex-wrap items-center gap-6">
+              <${Ring} />
+              <div className="min-w-0 flex-1">
+                <h3 className="font-display text-2xl font-extrabold leading-tight tracking-tight [text-wrap:balance] sm:text-3xl">College UI/UX Speed-Coding Hackathon</h3>
+                <p className="mt-1 text-muted">1st place</p>
+              </div>
+            </div>
+            <p className="mt-6 text-[17px]">
+              Built a responsive landing page from scratch in a five-minute round and finished ahead of every other team.
+            </p>
+            <ul className="mt-4 grid gap-2.5 text-[17px]">
+              <li className="flex gap-3"><span className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span><span>Strong command of HTML and CSS fundamentals.</span></li>
+              <li className="flex gap-3"><span className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span><span>Rapid prototyping and UI design under tight time pressure.</span></li>
+            </ul>
+            <div className="mt-auto flex flex-wrap gap-2 pt-6"><${Chip}>HTML5<//><${Chip}>CSS3<//></div>
+          </article>
+        </div>
+        ${DATA.projects.length ? html`
+          <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            ${DATA.projects.map((p) => html`<${ProjectCard} key=${p.id} p=${p} />`)}
+          </div>` : null}
+      </section>`;
+  }
+
+  /* ---------- skills ---------- */
+  function Skills() {
+    const groups = [
+      { t: 'Programming and web', items: ['HTML5', 'CSS3', 'JavaScript (ES6)'], extra: 'Python (in progress)' },
+      { t: 'Web development', items: ['Responsive web design', 'DOM manipulation', 'REST API integration'] },
+      { t: 'Tools and platforms', items: ['Git', 'GitHub', 'GitHub Pages', 'VS Code', 'Chrome DevTools'] }
+    ];
+    return html`
+      <section id="skills" className=${WRAP + ' pb-20 sm:pb-28'}>
+        <${SectionHead} title="Skills">What I use today, and what I'm learning next.<//>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          ${groups.map((g) => html`
+            <div key=${g.t} className="reveal card min-w-0 rounded-2xl p-6">
+              <h3 className="font-display text-xl font-extrabold tracking-tight">${g.t}</h3>
+              <div className="mt-4 flex flex-wrap gap-2">
+                ${g.items.map((i) => html`<${Chip} key=${i}>${i}<//>`)}
+                ${g.extra && html`<${Chip} dashed=${true}>${g.extra}<//>`}
+              </div>
+            </div>`)}
+          <div className="reveal min-w-0 rounded-2xl border-2 border-accent bg-surface p-6">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-display text-xl font-extrabold tracking-tight">Learning now</h3>
+              <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-accentink">In progress</span>
+            </div>
+            <p className="mt-4 font-semibold">Python Full-Stack Web Development</p>
+            <p className="mt-1 text-muted">DUCAT, Sector 63, Noida</p>
+          </div>
+        </div>
+      </section>`;
+  }
+
+  /* ---------- education ---------- */
+  function Cgpa() {
+    const ref = useRef(null);
+    useLayoutEffect(() => {
+      const el = ref.current;
+      if (reduce) return;
+      const o = { v: 0 };
+      el.textContent = '0.0';
+      const st = ScrollTrigger.create({
+        trigger: el, start: 'top 92%', once: true,
+        onEnter: () => gsap.to(o, { v: 8.1, duration: 1.6, ease: 'power2.out', onUpdate: () => { el.textContent = o.v.toFixed(1); } })
+      });
+      return () => st.kill();
+    }, []);
+    return html`<span ref=${ref}>8.1</span>`;
+  }
+
+  function Education() {
+    const steps = [
+      { when: 'In progress', title: 'Python Full-Stack Web Development', org: 'DUCAT, Sector 63, Noida', note: 'Training and certification', now: true },
+      { when: '2022 to 2026', title: 'Bachelor of Technology (B.Tech)', org: 'Delhi Institute of Engineering and Technology, Meerut', note: 'CGPA 8.1 / 10' },
+      { when: '2022', title: 'Higher Secondary Education (Class XII)', org: '', note: '61%' },
+      { when: '2020', title: 'Secondary Education (Class X)', org: '', note: '77.77%' }
+    ];
+    return html`
+      <section id="education" className=${WRAP + ' pb-20 sm:pb-28'}>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:gap-16">
+          <div className="min-w-0">
+            <${SectionHead} title="Education and training">From school to a B.Tech, plus hands-on full-stack training.<//>
+            <div className="reveal card rounded-2xl p-6 sm:p-8">
+              <div className="flex items-baseline gap-2">
+                <span className="tabnum font-display text-7xl font-extrabold leading-none tracking-tight text-accent"><${Cgpa} /></span>
+                <span className="font-display text-2xl font-semibold text-muted">/ 10</span>
+              </div>
+              <p className="mt-3 text-muted">CGPA in B.Tech at Delhi Institute of Engineering and Technology, Meerut.</p>
+            </div>
+          </div>
+
+          <ol className="min-w-0 border-l border-line pl-7 sm:pl-9 lg:mt-3">
+            ${steps.map((s, i) => html`
+              <li key=${i} className=${'reveal relative ' + (i < steps.length - 1 ? 'pb-10' : '')}>
+                <span className=${'timeline-dot absolute -left-[37px] top-1.5 h-4 w-4 rounded-full sm:-left-[45px] ' + (s.now ? 'bg-accent' : 'border-2 border-accent bg-paper')}></span>
+                <div className="tabnum text-sm font-medium text-muted">${s.when}</div>
+                <h3 className="mt-1 font-display text-xl font-extrabold leading-snug tracking-tight sm:text-2xl">${s.title}</h3>
+                ${s.org && html`<p className="mt-1">${s.org}</p>`}
+                <p className="mt-1 text-muted">${s.note}</p>
+              </li>`)}
+          </ol>
+        </div>
+      </section>`;
+  }
+
+  /* ---------- contact ---------- */
+  function Row({ label, value, href, copy, external }) {
+    const [msg, setMsg] = useState('');
+    const vref = useRef(null);
+    const flash = (m) => { setMsg(m); setTimeout(() => setMsg(''), 1800); };
+    const doCopy = async () => {
+      try {
+        await navigator.clipboard.writeText(copy);
+        flash('Copied');
+      } catch (e) {
+        const r = document.createRange();
+        r.selectNodeContents(vref.current);
+        const s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+        flash('Selected');
+      }
+    };
+    return html`
+      <div className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-3 border-t border-line py-4 sm:grid-cols-[6rem_minmax(0,1fr)_auto]">
+        <span className="text-sm text-muted">${label}</span>
+        <span ref=${vref} className="min-w-0 font-display text-lg font-semibold [overflow-wrap:anywhere] sm:text-xl">
+          ${href ? html`<a href=${href} target=${external ? '_blank' : undefined} rel=${external ? 'noopener noreferrer' : undefined} className="hover:text-accent">${value}</a>` : value}
+        </span>
+        ${copy ? html`
+          <button type="button" onClick=${doCopy} className="inline-flex w-[5.5rem] items-center justify-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium hover:border-accent">
+            ${msg ? html`<${CheckIcon} />` : html`<${CopyIcon} />`}${msg || 'Copy'}
+          </button>` : external ? html`
+          <a href=${href} target="_blank" rel="noopener noreferrer" className="inline-flex w-[5.5rem] items-center justify-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium hover:border-accent">Open <${ArrowUpRight} /></a>` : html`<span></span>`}
+      </div>`;
+  }
+
+  function Contact() {
+    return html`
+      <section id="contact" className="bg-codebg text-codefg">
+        <div className=${WRAP + ' grid gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16'}>
+          <div className="reveal min-w-0">
+            <h2 className="font-display text-5xl font-extrabold leading-[1] tracking-tight [text-wrap:balance] sm:text-6xl">Let's build something together.</h2>
+            <p className="mt-5 max-w-md text-lg" style=${{ color: 'color-mix(in srgb, var(--code-fg) 75%, transparent)' }}>
+              I'm looking for an internship or an entry-level role in web or software development. Send me a message and I'll reply.
+            </p>
+          </div>
+          <div className="reveal contact-list min-w-0 text-codefg" style=${{ '--line': 'color-mix(in srgb, var(--code-fg) 18%, transparent)', '--surface': 'transparent', '--muted': 'color-mix(in srgb, var(--code-fg) 62%, transparent)', '--ink': 'var(--code-fg)', '--accent': 'var(--tag)' }}>
+            <${Row} label="Email" value=${ME.email} href=${'mailto:' + ME.email} copy=${ME.email} />
+            <${Row} label="Phone" value=${ME.phone} href=${'tel:' + ME.phoneRaw} copy=${ME.phone} />
+            <${Row} label="GitHub" value="github.com/yashverma369" href=${ME.github} external=${true} />
+            <${Row} label="LinkedIn" value="linkedin.com/in/yash369" href=${ME.linkedin} external=${true} />
+            <${Row} label="Location" value="Noida, Uttar Pradesh" />
+            <div className="border-t border-line"></div>
+          </div>
+        </div>
+        <div className="border-t" style=${{ borderColor: 'color-mix(in srgb, var(--code-fg) 14%, transparent)' }}>
+          <div className=${WRAP + ' flex flex-wrap items-center justify-between gap-2 py-6 text-sm'} style=${{ color: 'color-mix(in srgb, var(--code-fg) 62%, transparent)' }}>
+            <span>2026 Yash Kumar</span>
+            <span>Built with React, Tailwind CSS and GSAP</span>
+          </div>
+        </div>
+      </section>`;
+  }
+
+  /* ---------- admin panel (only shown to people who can publish this page) ---------- */
+  const EMPTY = { title: '', tag: 'Personal project', status: 'Live', desc: '', tech: '', demo: '', repo: '' };
+  const FIELD = 'w-full rounded-lg border border-line bg-paper px-3 py-2 text-base text-ink placeholder:text-muted focus:border-accent';
+
+  function Field({ id, label, hint, children }) {
+    return html`
+      <div className="grid gap-1.5">
+        <label htmlFor=${id} className="text-sm font-semibold">${label}</label>
+        ${children}
+        ${hint ? html`<span className="text-xs text-muted">${hint}</span>` : null}
+      </div>`;
+  }
+
+  function Admin({ artifact }) {
+    const [open, setOpen] = useState(false);
+    const [draft, setDraft] = useState(() => DATA.projects.map((p) => ({ ...p })));
+    const [form, setForm] = useState(EMPTY);
+    const [editing, setEditing] = useState(null);
+    const [confirmId, setConfirmId] = useState(null);
+    const [formErr, setFormErr] = useState('');
+    const [state, setState] = useState('idle');
+    const [pubErr, setPubErr] = useState('');
+    const dirty = JSON.stringify(draft) !== JSON.stringify(DATA.projects);
+    const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+
+    useEffect(() => {
+      if (!open) return;
+      const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+      window.addEventListener('keydown', onKey);
+      return () => window.removeEventListener('keydown', onKey);
+    }, [open]);
+
+    const submit = (e) => {
+      e.preventDefault();
+      const title = form.title.trim();
+      const desc = form.desc.trim();
+      const demo = form.demo.trim();
+      const repo = form.repo.trim();
+      if (!title) return setFormErr('Add a project title.');
+      if (!desc) return setFormErr('Add a short description.');
+      if (demo && !safeUrl(demo)) return setFormErr('The live link must start with https:// or http://.');
+      if (repo && !safeUrl(repo)) return setFormErr('The source link must start with https:// or http://.');
+      const project = {
+        id: editing || 'p' + Date.now().toString(36),
+        title, desc, demo, repo,
+        tag: form.tag.trim(),
+        status: form.status,
+        tech: form.tech.split(',').map((s) => s.trim()).filter(Boolean).slice(0, 8)
+      };
+      setDraft(editing ? draft.map((p) => (p.id === editing ? project : p)) : [...draft, project]);
+      setForm(EMPTY);
+      setEditing(null);
+      setFormErr('');
+    };
+
+    const startEdit = (p) => {
+      setForm({ title: p.title, tag: p.tag || '', status: p.status || 'Live', desc: p.desc, tech: (p.tech || []).join(', '), demo: p.demo || '', repo: p.repo || '' });
+      setEditing(p.id);
+      setFormErr('');
+    };
+    const cancelEdit = () => { setForm(EMPTY); setEditing(null); setFormErr(''); };
+    const remove = (id) => {
+      setDraft(draft.filter((p) => p.id !== id));
+      setConfirmId(null);
+      if (editing === id) cancelEdit();
+    };
+    const move = (i, d) => {
+      const j = i + d;
+      if (j < 0 || j >= draft.length) return;
+      const next = draft.slice();
+      [next[i], next[j]] = [next[j], next[i]];
+      setDraft(next);
+    };
+
+    const publish = async () => {
+      setState('publishing');
+      setPubErr('');
+      try {
+        await artifact.publish(buildDoc({ projects: draft }));
+        setState('done');
+      } catch (e) {
+        setState('idle');
+        const code = e && e.code;
+        if (code === 'not_writer' || code === 'not_granted') setPubErr('This account can view the page but cannot publish it.');
+        else if (code === 'conflict') setPubErr('The page was updated somewhere else. It is reloading with the latest version, so add your change again.');
+        else if (code === 'rate_limited') setPubErr('Too many publishes in a row. Wait a minute and try again.');
+        else setPubErr('Publishing failed. Check your connection and try again.');
+      }
+    };
+
+    const small = 'rounded-full border border-line px-3 py-1 text-sm font-medium hover:border-accent';
+
+    return html`
+      <div>
+        <button type="button" onClick=${() => setOpen(true)}
+                className="btn-primary fixed right-4 z-40 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-lg"
+                style=${{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' }}>
+          Admin${dirty ? ' (unpublished changes)' : ''}
+        </button>
+
+        ${open ? html`
+          <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="Manage projects">
+            <div className="absolute inset-0" style=${{ background: 'color-mix(in srgb, var(--ink) 50%, transparent)' }} onClick=${() => setOpen(false)}></div>
+            <div className="relative flex h-full w-full max-w-md flex-col border-l border-line bg-surface text-ink">
+              <div className="flex items-start justify-between gap-4 border-b border-line px-5 pb-4 sm:px-6" style=${{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1.25rem)' }}>
+                <div>
+                  <h2 className="font-display text-2xl font-extrabold tracking-tight">Manage projects</h2>
+                  <p className="mt-1 text-sm text-muted">Only you see this panel. Publishing updates the page for every visitor.</p>
+                </div>
+                <button type="button" onClick=${() => setOpen(false)} className=${small}>Close</button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-6">
+                <form onSubmit=${submit} className="grid gap-4" noValidate>
+                  <h3 className="font-display text-lg font-extrabold">${editing ? 'Edit project' : 'Add a project'}</h3>
+                  <${Field} id="adm-title" label="Title">
+                    <input id="adm-title" className=${FIELD} value=${form.title} onChange=${set('title')} placeholder="Portfolio Website" maxLength="80" />
+                  <//>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <${Field} id="adm-tag" label="Type">
+                      <input id="adm-tag" className=${FIELD} value=${form.tag} onChange=${set('tag')} placeholder="Personal project" maxLength="40" />
+                    <//>
+                    <${Field} id="adm-status" label="Status">
+                      <select id="adm-status" className=${FIELD} value=${form.status} onChange=${set('status')}>
+                        <option value="Live">Live</option>
+                        <option value="In progress">In progress</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    <//>
+                  </div>
+                  <${Field} id="adm-desc" label="Description" hint="Two or three lines on what it does and what you used.">
+                    <textarea id="adm-desc" rows="4" className=${FIELD} value=${form.desc} onChange=${set('desc')} maxLength="600"></textarea>
+                  <//>
+                  <${Field} id="adm-tech" label="Tech stack" hint="Separate with commas, up to 8.">
+                    <input id="adm-tech" className=${FIELD} value=${form.tech} onChange=${set('tech')} placeholder="React, Tailwind CSS, GSAP" />
+                  <//>
+                  <${Field} id="adm-demo" label="Live link">
+                    <input id="adm-demo" className=${FIELD} value=${form.demo} onChange=${set('demo')} placeholder="https://" inputMode="url" />
+                  <//>
+                  <${Field} id="adm-repo" label="Source code link">
+                    <input id="adm-repo" className=${FIELD} value=${form.repo} onChange=${set('repo')} placeholder="https://github.com/yashverma369/..." inputMode="url" />
+                  <//>
+                  ${formErr ? html`<p className="text-sm font-medium text-hot" role="alert">${formErr}</p>` : null}
+                  <div className="flex flex-wrap gap-2">
+                    <button type="submit" className="btn-primary rounded-full px-5 py-2.5 text-sm font-semibold">${editing ? 'Update project' : 'Add to list'}</button>
+                    ${editing ? html`<button type="button" onClick=${cancelEdit} className=${small + ' py-2.5'}>Cancel</button>` : null}
+                  </div>
+                </form>
+
+                <div className="mt-8 border-t border-line pt-6">
+                  <h3 className="font-display text-lg font-extrabold">Added projects</h3>
+                  <p className="mt-1 text-sm text-muted">The weather app and the hackathon win are built in and stay on the page.</p>
+                  ${draft.length === 0 ? html`<p className="mt-4 rounded-lg border border-dashed border-line p-4 text-sm text-muted">Nothing added yet. Fill in the form above and choose Add to list.</p>` : html`
+                    <ul className="mt-4 grid gap-3">
+                      ${draft.map((p, i) => html`
+                        <li key=${p.id} className="rounded-xl border border-line bg-paper p-4">
+                          <div className="font-display font-extrabold [overflow-wrap:anywhere]">${p.title}</div>
+                          <div className="text-sm text-muted">${[p.tag, p.status].filter(Boolean).join(', ')}</div>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            <button type="button" className=${small} onClick=${() => startEdit(p)}>Edit</button>
+                            <button type="button" className=${small} onClick=${() => move(i, -1)} disabled=${i === 0} aria-label=${'Move ' + p.title + ' earlier'}>Move up</button>
+                            <button type="button" className=${small} onClick=${() => move(i, 1)} disabled=${i === draft.length - 1} aria-label=${'Move ' + p.title + ' later'}>Move down</button>
+                            ${confirmId === p.id ? html`
+                              <button type="button" className=${small + ' !border-hot text-hot'} onClick=${() => remove(p.id)}>Confirm delete</button>
+                              <button type="button" className=${small} onClick=${() => setConfirmId(null)}>Keep</button>` : html`
+                              <button type="button" className=${small} onClick=${() => setConfirmId(p.id)}>Delete</button>`}
+                          </div>
+                        </li>`)}
+                    </ul>`}
+                </div>
+              </div>
+
+              <div className="border-t border-line px-5 pt-4 sm:px-6" style=${{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' }}>
+                ${pubErr ? html`<p className="mb-3 text-sm font-medium text-hot" role="alert">${pubErr}</p>` : null}
+                <div className="flex flex-wrap items-center gap-3">
+                  <button type="button" onClick=${publish} disabled=${!dirty || state !== 'idle'}
+                          className="btn-primary rounded-full px-5 py-2.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50">
+                    ${state === 'publishing' ? 'Publishing...' : state === 'done' ? 'Published' : 'Publish changes'}
+                  </button>
+                  <span className="text-sm text-muted">${state === 'done' ? 'The page is reloading with your changes.' : dirty ? 'You have unpublished changes.' : 'Everything is published.'}</span>
+                </div>
+              </div>
+            </div>
+          </div>` : null}
+      </div>`;
+  }
+
+  /* ---------- app ---------- */
+  function App() {
+    const [theme, toggle] = useTheme();
+    const [artifact, setArtifact] = useState(null);
+    useEffect(() => {
+      let alive = true;
+      detectAdmin().then((a) => { if (alive) setArtifact(a); });
+      return () => { alive = false; };
+    }, []);
+    useLayoutEffect(() => {
+      const ctx = gsap.context(() => {
+        if (reduce) return;
+        gsap.utils.toArray('.reveal').forEach((el) => {
+          gsap.from(el, { y: 40, opacity: 0.25, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
+        });
+        gsap.to('#progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
+      });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+      return () => ctx.revert();
+    }, []);
+    return html`
+      <div>
+        <${Nav} theme=${theme} toggle=${toggle} />
+        <main>
+          <${Hero} />
+          <${Ribbon} />
+          <${Projects} />
+          <${Skills} />
+          <${Education} />
+        </main>
+        <${Contact} />
+        ${artifact ? html`<${Admin} artifact=${artifact} />` : null}
+      </div>`;
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
+})();
+</script>
+
+</body>
+</html>
